@@ -10,7 +10,8 @@ class Pokemon extends Model
     use HasFactory;
 
     protected $table = 'pokemons';
-
+    public $timestamps = false;
+    
     protected $fillable = [
         'name',
         'number_dex',

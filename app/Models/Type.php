@@ -10,7 +10,8 @@ class Type extends Model
     use HasFactory;
 
     protected $table = 'types';
-
+    public $timestamps = false;
+    
     protected $fillable = [
         'name',
     ];

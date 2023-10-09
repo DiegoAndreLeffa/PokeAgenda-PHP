@@ -18,6 +18,7 @@ class CreatePokemonsTable extends Migration
             $table->integer('previous_evolution')->nullable();
             $table->string('img', 255)->nullable();
             $table->text('description')->nullable();
+            $table->timestamps();
         });
     }
 

@@ -20,6 +20,7 @@ class CreatePokemonsTypesTable extends Migration
             $table->foreign('id_type')->references('id')->on('types');
 
             $table->unique(['id_pokemon', 'id_type']);
+            $table->timestamps();
         });
     }
 
