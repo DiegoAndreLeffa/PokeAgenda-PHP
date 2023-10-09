@@ -1,20 +1,23 @@
 <?php
 
+use App\Http\Controllers\PokemonController;
+use App\Http\Controllers\PokemonTypeController;
+use App\Http\Controllers\TypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+
+Route::get('/pokemons', [PokemonController::class, 'index']);
+Route::get('/pokemons/{type}', [PokemonController::class, 'index'])
+    ->where('type', '[A-Za-z]+');
+
+Route::post('/pokemons', [PokemonController::class, 'store']);
 
 
-Route::resource('pokemons', 'PokemonController');
+Route::get('/types', [TypeController::class, 'index']);
+Route::patch('/types/{id}', [TypeController::class, 'update']);
 
-Route::resource('types', 'TypeController');
+
+Route::get('/pokemons_types', [PokemonTypeController::class, 'index']);
+Route::post('/pokemons_types', [PokemonTypeController::class, 'store']);
+
