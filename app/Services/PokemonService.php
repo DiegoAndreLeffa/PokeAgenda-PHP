@@ -10,18 +10,24 @@ class PokemonService
 {
     public function getAll()
     {
-        return Pokemon::select('pokemons.*', 'types.name as tipo')
+        return Pokemon::select('pokemons.*', 'types.name as tipo', 'types.id as tipo_id')
             ->join('pokemons_types', 'pokemons.id', '=', 'pokemons_types.id_pokemon')
             ->join('types', 'pokemons_types.id_type', '=', 'types.id')
             ->get()
             ->groupBy('id')
             ->map(function ($grouped) {
                 $first = $grouped->first();
-                $first->tipos = $grouped->pluck('tipo');
-                unset($first->tipo); // Remove a chave "tipo"
+                $first->tipos = $grouped->map(function ($item) {
+                    return [
+                        'id' => $item->tipo_id,
+                        'name' => $item->tipo,
+                    ];
+                })->toArray();
+                unset($first->tipo_id, $first->tipo);
                 return $first;
             });
     }
+
 
     public function create(array $data)
     {
@@ -48,7 +54,7 @@ class PokemonService
 
     public function getByType($type)
     {
-        return Pokemon::select('pokemons.*', 'types.name as tipo')
+        return Pokemon::select('pokemons.*', 'types.name as tipo', 'types.id as tipo_id')
             ->join('pokemons_types', 'pokemons.id', '=', 'pokemons_types.id_pokemon')
             ->join('types', 'pokemons_types.id_type', '=', 'types.id')
             ->whereRaw('LOWER(types.name) = LOWER(?)', [$type])
@@ -63,8 +69,13 @@ class PokemonService
             ->groupBy('id')
             ->map(function ($grouped) {
                 $first = $grouped->first();
-                $first->tipos = $grouped->pluck('tipo');
-                unset($first->tipo); // Remove a chave "tipo"
+                $first->tipos = $grouped->map(function ($item) {
+                    return [
+                        'id' => $item->tipo_id,
+                        'name' => $item->tipo,
+                    ];
+                })->toArray();
+                unset($first->tipo_id, $first->tipo);
                 return $first;
             });
     }
