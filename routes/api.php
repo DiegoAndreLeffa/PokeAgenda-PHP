@@ -15,6 +15,7 @@ Route::post('/pokemons', [PokemonController::class, 'store']);
 
 
 Route::get('/types', [TypeController::class, 'index']);
+Route::post('/types', [TypeController::class, 'store']);
 Route::patch('/types/{id}', [TypeController::class, 'update']);
 
 
